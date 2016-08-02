@@ -31,8 +31,6 @@ import com.travel.liuyun.widget.SimpleImageBanner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import rx.Observer;
@@ -166,13 +164,13 @@ public class HomeFragment extends BaseFragment {
                         });*/
                         PhoneApi phoneApi = PhoneApi.getApi();
                         LoginService loginService = phoneApi.getService();
-                        Map<String, String> options = new HashMap<String, String>();
+                        /*Map<String, String> options = new HashMap<String, String>();
                         options.put("platform", "android");
                         options.put("version", "1.0");
                         options.put("key", "123456");
                         options.put("Mobile", "15256298062");
-                        options.put("PassWord", "123456");
-                        loginService.getFamousList(options)
+                        options.put("PassWord", "123456");*/
+                        loginService.getFamousList("android","123456","1.0","15256298062","123456")
                                 .subscribeOn(Schedulers.newThread())    //子线程访问网络
                                 .observeOn(AndroidSchedulers.mainThread())  //回调到主线程
                                 .subscribe(new Observer<Result>() {
@@ -189,7 +187,7 @@ public class HomeFragment extends BaseFragment {
 
                                     @Override
                                     public void onNext(Result result) {
-                                        Log.e("lgz", "result = :"+result.toString());
+                                        Log.e("lgz", "result = :"+result.getStatus());
                                         if (result != null && result.getStatus() == 1) {
 //                                            PhoneResult.RetDataEntity entity = result.getRetData();
 //                                            resultView.append("地址：" + entity.getCity());
