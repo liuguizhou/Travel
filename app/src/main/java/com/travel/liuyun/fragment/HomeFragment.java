@@ -22,8 +22,8 @@ import com.travel.liuyun.activity.TripNewsActivity;
 import com.travel.liuyun.adapter.GridAdapter;
 import com.travel.liuyun.adapter.SceneGridAdapter;
 import com.travel.liuyun.bean.Result;
-import com.travel.liuyun.retrofit.BaseApi;
-import com.travel.liuyun.retrofit.LoginApi;
+import com.travel.liuyun.retrofit.LoginService;
+import com.travel.liuyun.retrofit.PhoneApi;
 import com.travel.liuyun.utils.DataProvider;
 import com.travel.liuyun.utils.ViewFindUtils;
 import com.travel.liuyun.widget.CustomGridView;
@@ -35,9 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by liuguizhou on 2016/5/1.
@@ -138,7 +138,7 @@ public class HomeFragment extends BaseFragment {
                         }).show();
                         break;
                     case 5:
-                        LoginApi.FamousService service = BaseApi.getRetrofit().create(LoginApi.FamousService.class);
+                       /* LoginApi.FamousService service = BaseApi.getRetrofit().create(LoginApi.FamousService.class);
                         Map<String, String> options = new HashMap<String, String>();
                         options.put("platform", "android");
                         options.put("version", "1.0");
@@ -163,15 +163,15 @@ public class HomeFragment extends BaseFragment {
                                 Log.e("lgz", "Throwable = : "+t.toString() );
                             }
 
-                        });
-                        /*PhoneApi phoneApi = PhoneApi.getApi();
+                        });*/
+                        PhoneApi phoneApi = PhoneApi.getApi();
                         LoginService loginService = phoneApi.getService();
-                        *//*Map<String, String> options = new HashMap<String, String>();
+                        Map<String, String> options = new HashMap<String, String>();
                         options.put("platform", "android");
                         options.put("version", "1.0");
                         options.put("key", "123456");
                         options.put("Mobile", "15256298062");
-                        options.put("PassWord", "123456");*//*
+                        options.put("PassWord", "123456");
                         loginService.getFamousList("android","123456","1.0","15256298062","123456")
                                 .subscribeOn(Schedulers.newThread())    //子线程访问网络
                                 .observeOn(AndroidSchedulers.mainThread())  //回调到主线程
@@ -197,7 +197,7 @@ public class HomeFragment extends BaseFragment {
                                             Log.e("lgz", "getStatus = : " + result.getStatus() + "data = " + result.getData().toString());
                                         }
                                     }
-                                });*/
+                                });
 
                         break;
                     default:
