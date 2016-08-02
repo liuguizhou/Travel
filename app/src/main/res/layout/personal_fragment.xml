@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/backimage"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:background="@color/blue_color" >
+
+        <ImageView
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/setings" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/touxiang"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@mipmap/my_information" />
+
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white_color"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:shadowColor="@color/gray"
+                android:shadowRadius="1"
+                android:shadowDx="2"
+                android:shadowDy="2"  />
+
+            <TextView
+                android:id="@+id/identity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white_color"
+                android:textSize="13sp"
+                android:shadowColor="@color/gray"
+                android:shadowRadius="1"
+                android:shadowDx="2"
+                android:shadowDy="2"  />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white_color"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/server_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+
+                android:id="@+id/server_frequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0次"
+                android:textColor="@color/text_color"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/my_all_service"
+                android:textColor="@color/text_color" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1.6dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/my_background" />
+
+        <LinearLayout
+            android:id="@+id/rating_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/rating_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0分"
+                android:textColor="@color/text_color"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/my_rating"
+                android:textColor="@color/text_color" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/my_identity"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_identity"
+                android:text="@string/my_identity" >
+            </Button>
+
+            <Button
+                android:id="@+id/my_information"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_information"
+                android:text="@string/my_information" >
+            </Button>
+
+            <Button
+                android:id="@+id/my_server"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_server"
+                android:text="@string/my_server" >
+            </Button>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/my_visitor"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_visitor"
+                android:text="@string/my_visitor" >
+            </Button>
+
+            <Button
+                android:id="@+id/my_income"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_income"
+                android:text="@string/my_income" >
+            </Button>
+
+            <Button
+                android:id="@+id/my_account"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_account"
+                android:text="@string/my_account" >
+            </Button>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/my_tuijian"
+                style="@style/table_style"
+                android:layout_width="1dip"
+                android:drawableTop="@mipmap/my_tuijian"
+                android:text="@string/my_tuijian" >
+            </Button>
+
+            <Button
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:layout_margin="0.8dp"
+                android:background="@color/white_color" >
+            </Button>
+
+            <Button
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:layout_margin="0.8dp"
+                android:background="@color/white_color" >
+            </Button>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

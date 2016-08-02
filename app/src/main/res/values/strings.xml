@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Travel</string>
+    <!-- 首页 -->
+    <string name="main_page">首页</string>
+    <string name="scene_travel">全景游</string>
+    <string name="suggest_path">推荐行程</string>
+    <string name="personal">个人中心</string>
+
+    <string name="my_nickname">行者无疆</string>
+    <string name="my_no_identity">身份未验证</string>
+    <string name="my_all_service">总完成服务次数</string>
+    <string name="my_rating">综合星级评分</string>
+    <string name="my_identity">身份验证</string>
+    <string name="my_information">基本资料</string>
+    <string name="my_server">领游服务</string>
+    <string name="my_visitor">访客记录</string>
+    <string name="my_income">我的收入</string>
+    <string name="my_account">绑定账户</string>
+    <string name="my_tuijian">推荐有礼</string>
+
+    <string name="take_photo">拍照</string>
+    <string name="take_album">从相册选择</string>
+    <string name="cancel">取消</string>
+
+</resources>
