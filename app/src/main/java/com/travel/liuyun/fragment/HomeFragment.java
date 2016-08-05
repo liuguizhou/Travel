@@ -23,7 +23,7 @@ import com.travel.liuyun.adapter.GridAdapter;
 import com.travel.liuyun.adapter.SceneGridAdapter;
 import com.travel.liuyun.bean.Result;
 import com.travel.liuyun.retrofit.BaseApi;
-import com.travel.liuyun.retrofit.LoginApi;
+import com.travel.liuyun.retrofit.FamousService;
 import com.travel.liuyun.utils.DataProvider;
 import com.travel.liuyun.utils.ViewFindUtils;
 import com.travel.liuyun.widget.CustomGridView;
@@ -138,29 +138,28 @@ public class HomeFragment extends BaseFragment {
                         }).show();
                         break;
                     case 5:
-                        LoginApi.FamousService service = BaseApi.getRetrofit().create(LoginApi.FamousService.class);
+                        FamousService service = BaseApi.getRetrofit().create(FamousService.class);
                         Map<String, String> options = new HashMap<String, String>();
                         options.put("platform", "android");
                         options.put("version", "1.0");
                         options.put("key", "123456");
                         options.put("Mobile", "15256298062");
                         options.put("PassWord", "123456");
-
                         Call<Result> call = service.getFamousList(options);
                         call.enqueue(new Callback<Result>() {
                             @Override
                             public void onResponse(Call<Result> call, Response<Result> response) {
-                                if (response.isSuccessful()){
-                                   Result result = response.body();
-                                    Toast.makeText(getActivity(), "请求成功,status = " +result.getStatus()+"message = "+result.getMessage() , Toast.LENGTH_LONG).show();
-                                    Log.e("lgz", "getStatus = : "+ result.getStatus()+"data = "+result.getData().toString());
+                                if (response.isSuccessful()) {
+                                    Result result = response.body();
+                                    Toast.makeText(getActivity(), "请求成功,status = " + result.getStatus() + "message = " + result.getMessage(), Toast.LENGTH_LONG).show();
+                                    Log.e("lgz", "Status = : " + result.getStatus() + "response = " + response.toString());
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Result> call, Throwable t) {
-                                Toast.makeText(getActivity(), "请求失败" +t.toString() , Toast.LENGTH_LONG).show();
-                                Log.e("lgz", "Throwable = : "+t.toString() );
+                                Toast.makeText(getActivity(), "请求失败" + t.toString(), Toast.LENGTH_LONG).show();
+                                Log.e("lgz", "Throwable = : " + t.toString());
                             }
 
                         });
@@ -238,9 +237,9 @@ public class HomeFragment extends BaseFragment {
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params = new RequestParams();
             params.put("platform", "android");
-            params.put("ID", "6488");
             params.put("version", "1.0");
             params.put("key", "123456");
+            params.put("ID", "6488");
             params.put("HeadImg", file);
             // 上传文件
             client.post("http://api.7mlzg.com/Business/ModifyGuestInfo", params, new AsyncHttpResponseHandler() {

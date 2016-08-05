@@ -4,7 +4,12 @@ import android.content.Context;
 
 import com.travel.liuyun.TravelApplication;
 
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,7 +19,39 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public abstract class BaseApi {
     public static final String API_SERVER = "http://api.7mlzg.com/Business/";
-    private static final OkHttpClient mOkHttpClient = new OkHttpClient();
+//    private static final OkHttpClient mOkHttpClient = new OkHttpClient();
+//    options.put("platform", "android");
+//    options.put("version", "1.0");
+//    options.put("key", "123456");
+    private static final OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
+            .addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
+                    Request original = chain.request();
+                    HttpUrl originalHttpUrl = original.url();
+                    /*HttpUrl url = originalHttpUrl
+                            .newBuilder()
+                            .addQueryParameter("platform", "android")
+                            .addQueryParameter("version", "1.0")
+                            .addQueryParameter("key", "123456")
+                            .build();*/
+
+                    Request request = original.newBuilder()
+                            .addHeader("platform", "android")
+                            .addHeader("version", "1.0")
+                            .addHeader("key", "123456")
+                            .method(original.method(), original.body())
+                            .build();
+
+                  /*  Request request = original
+                            .newBuilder()
+                            .url(url)
+                            .build();*/
+                    okhttp3.Response response = chain.proceed(request);
+                    return response;
+                }
+            })
+            .build();
     private static Retrofit mRetrofit;
 
     public static Retrofit getRetrofit() {
