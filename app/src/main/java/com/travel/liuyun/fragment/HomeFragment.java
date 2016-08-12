@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -30,6 +31,8 @@ import com.travel.liuyun.utils.DataProvider;
 import com.travel.liuyun.utils.ViewFindUtils;
 import com.travel.liuyun.widget.CustomGridView;
 import com.travel.liuyun.widget.SimpleImageBanner;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +49,11 @@ import rx.schedulers.Schedulers;
  * Created by liuguizhou on 2016/5/1.
  */
 public class HomeFragment extends BaseFragment {
+
+    /**
+     * 扫描跳转Activity RequestCode
+     */
+    public static final int REQUEST_CODE = 111;
 
     private SimpleImageBanner sib;
 
@@ -78,6 +86,12 @@ public class HomeFragment extends BaseFragment {
         impression_layout = ViewFindUtils.find(view, R.id.impression_layout);
         trip_layout = ViewFindUtils.find(view, R.id.trip_news_layout);
         sceneList = ViewFindUtils.find(view, R.id.scene_gridview);
+        sib.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -141,6 +155,7 @@ public class HomeFragment extends BaseFragment {
                         }).show();
                         break;
                     case 5:
+
                         FamousService service = BaseApi.getRetrofit().create(FamousService.class);
                         PhoneApi phoneApi = PhoneApi.getApi();
                         LoginService loginService = phoneApi.getService();
@@ -150,7 +165,7 @@ public class HomeFragment extends BaseFragment {
                         options.put("key", "123456");
                         options.put("Mobile", "15256298062");
                         options.put("PassWord", "123456");
-                        loginService.getFamousList("android","123456","1.0","15256298062","123456")
+                        loginService.getFamousList("android", "123456", "1.0", "15256298062", "123456")
                                 .subscribeOn(Schedulers.newThread())    //子线程访问网络
                                 .observeOn(AndroidSchedulers.mainThread())  //回调到主线程
                                 .subscribe(new Observer<Result>() {
@@ -167,7 +182,7 @@ public class HomeFragment extends BaseFragment {
 
                                     @Override
                                     public void onNext(Result result) {
-                                        Log.e("lgz", "result = :"+result.getStatus());
+                                        Log.e("lgz", "result = :" + result.getStatus());
                                         if (result != null && result.getStatus() == 1) {
 //                                            PhoneResult.RetDataEntity entity = result.getRetData();
 //                                            resultView.append("地址：" + entity.getCity());
@@ -177,6 +192,10 @@ public class HomeFragment extends BaseFragment {
                                     }
                                 });
 
+                        break;
+                    case 6:
+                        Intent intentScanning = new Intent(getActivity(), CaptureActivity.class);
+                        startActivityForResult(intentScanning, REQUEST_CODE);
                         break;
                     default:
                         Toast.makeText(getActivity(), "position>>" + position, Toast.LENGTH_SHORT).show();
@@ -198,6 +217,29 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {return;}
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+//        else if ()
+
     }
 
     @Override

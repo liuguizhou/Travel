@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.travel.liuyun.R;
 import com.travel.liuyun.adapter.SlideAdapter;
 import com.travel.liuyun.bean.ItemBean;
+import com.travel.liuyun.loading.EndlessRecyclerOnScrollListener;
+import com.travel.liuyun.loading.LoadingFooter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,10 @@ public class ToEntertainActivity extends BaseActivity implements View.OnClickLis
     private SlideAdapter mSlideAdapter;
     private List<ItemBean> mItemBeans = new ArrayList<>();
     private TextView mRightTV;
+    private View view;
+    private int lastPosition = 0;
+    private int size = 8;
+    private LoadingFooter mLoadingFooter;
 
     @Override
     protected void onStart() {
@@ -48,8 +54,13 @@ public class ToEntertainActivity extends BaseActivity implements View.OnClickLis
         initBean();
         mSlideAdapter = new SlideAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
         mRecyclerView.setAdapter(mSlideAdapter);
-        mSlideAdapter.setItemBeans(mItemBeans);
+        if (mLoadingFooter == null) {
+            mLoadingFooter = new LoadingFooter(this);
+            mSlideAdapter.setFooterView(mLoadingFooter);
+        }
+        getDataTask(false);
     }
 
     @Override
@@ -64,9 +75,59 @@ public class ToEntertainActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initBean() {
-        for (int x = 0; x < 30; x++) {
-            mItemBeans.add(new ItemBean());
+        for (int x = 0; x < 40; x++) {
+            mItemBeans.add(new ItemBean("音乐"+x));
         }
+    }
+
+    private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener(2) {
+        @Override
+        public void onLoadMore(View view) {
+            super.onLoadMore(view);
+            getDataTask(false);
+        }
+    };
+
+    public void getDataTask() {
+        getDataTask(true);
+    }
+
+    public void getDataTask(final boolean isClear) {
+        if (mLoadingFooter.getState() == LoadingFooter.State.Loading || (!isClear && mLoadingFooter.getState() == LoadingFooter.State.TheEnd)) {
+            return;
+        }
+        mLoadingFooter.setState(LoadingFooter.State.Loading);
+
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSlideAdapter.setFooterView(mLoadingFooter);
+                if (isClear) {
+                    mSlideAdapter.clear();
+                }
+                List<ItemBean> result = getData();
+                if (result == null || result.size() < size) {
+                    mLoadingFooter.setState(LoadingFooter.State.TheEnd, false);
+                    mSlideAdapter.removeFooterView();
+                } else {
+                    mLoadingFooter.setState(LoadingFooter.State.Normal);
+                }
+                if (result != null && result.size() > 0) {
+                    mSlideAdapter.addAll(result);
+                    lastPosition = lastPosition + result.size();
+                }
+            }
+        }, 1000);
+    }
+
+    public List<ItemBean> getData() {
+        try {
+            int end = (lastPosition + size) > mItemBeans.size() ? mItemBeans.size() : (lastPosition + size);
+            return mItemBeans.subList(lastPosition, end);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

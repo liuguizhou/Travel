@@ -1,13 +1,16 @@
 package com.travel.liuyun.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.travel.liuyun.R;
 import com.travel.liuyun.bean.ItemBean;
+import com.travel.liuyun.loading.RecyclerLoadMoreAdapater;
 import com.travel.liuyun.view.SlideRelativeLayout;
 
 import java.util.ArrayList;
@@ -16,7 +19,7 @@ import java.util.List;
 /**
  * Created by Young Pioneers on 16/6/30.
  */
-public class SlideAdapter extends RecyclerView.Adapter {
+public class SlideAdapter extends RecyclerLoadMoreAdapater {
 
     public static final int NORMAL = 1000;
     public static final int SLIDE = 2000;
@@ -38,12 +41,20 @@ public class SlideAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void setItemBeans(List<ItemBean> beans) {
-        mItemBeans = beans;
-        notifyDataSetChanged();
+    @Override
+    public void addAll(@NonNull List data) {
+//        super.addAll(data);
+        this.mItemBeans.addAll(data);
+        this.notifyDataSetChanged();
     }
 
-    @Override
+
+    /*  public void setItemBeans(List<ItemBean> beans) {
+        mItemBeans = beans;
+        notifyDataSetChanged();
+    }*/
+
+   /* @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
     }
@@ -59,6 +70,27 @@ public class SlideAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((SlideViewHolder) holder).bind(mItemBeans.get(position));
+    }*/
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolderSuper(ViewGroup viewGroup, int viewType) {
+        SlideViewHolder slideViewHolder = new SlideViewHolder(
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false));
+        mSlideViewHolders.add(slideViewHolder);
+        return slideViewHolder;
+    }
+
+    @Override
+    public int getItemViewTypeSuper(int position) {
+        return super.getItemViewTypeSuper(position);
+    }
+
+    @Override
+    public void onBindViewHolderSuper(RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolderSuper(holder, position);
+        SlideViewHolder slideViewHolder = (SlideViewHolder) holder;
+        ((SlideViewHolder) holder).bind(mItemBeans.get(position));
+        slideViewHolder.title.setText(mItemBeans.get(position).getTitle());
     }
 
     @Override
@@ -71,11 +103,13 @@ public class SlideAdapter extends RecyclerView.Adapter {
         private SlideRelativeLayout mSlideRelativeLayout;
         private CheckBox mCheckBox;
         private ItemBean mItemBean;
+        private TextView title;
 
         public SlideViewHolder(View itemView) {
             super(itemView);
             mSlideRelativeLayout = (SlideRelativeLayout) itemView.findViewById(R.id.item_root);
             mCheckBox = (CheckBox) itemView.findViewById(R.id.item_checkbox);
+            title = (TextView) itemView.findViewById(R.id.item_title_tv);
             itemView.setOnClickListener(this);
         }
 
