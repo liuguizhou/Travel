@@ -23,10 +23,7 @@ import com.travel.liuyun.activity.TripNewsActivity;
 import com.travel.liuyun.adapter.GridAdapter;
 import com.travel.liuyun.adapter.SceneGridAdapter;
 import com.travel.liuyun.bean.Result;
-import com.travel.liuyun.retrofit.BaseApi;
-import com.travel.liuyun.retrofit.FamousService;
-import com.travel.liuyun.retrofit.LoginService;
-import com.travel.liuyun.retrofit.PhoneApi;
+import com.travel.liuyun.retrofit.LoginApi;
 import com.travel.liuyun.utils.DataProvider;
 import com.travel.liuyun.utils.ViewFindUtils;
 import com.travel.liuyun.widget.CustomGridView;
@@ -36,13 +33,9 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
@@ -156,7 +149,7 @@ public class HomeFragment extends BaseFragment {
                         break;
                     case 5:
 
-                        FamousService service = BaseApi.getRetrofit().create(FamousService.class);
+                       /* FamousService service = BaseApi.getRetrofit().create(FamousService.class);
                         PhoneApi phoneApi = PhoneApi.getApi();
                         LoginService loginService = phoneApi.getService();
                         Map<String, String> options = new HashMap<String, String>();
@@ -191,6 +184,23 @@ public class HomeFragment extends BaseFragment {
                                         }
                                     }
                                 });
+*/
+                        new LoginApi().getUser("15256298062","123456").subscribe(new Observer<Result>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.e("lgz", "onCompleted:");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("lgz", "e: "+e.toString());
+                            }
+
+                            @Override
+                            public void onNext(Result result) {
+                                Log.e("lgz", "status = : "+result.getStatus()+" message = "+result.getMessage());
+                            }
+                        });
 
                         break;
                     case 6:

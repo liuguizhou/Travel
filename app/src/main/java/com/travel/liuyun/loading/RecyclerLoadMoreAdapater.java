@@ -21,7 +21,7 @@ public abstract class RecyclerLoadMoreAdapater<T> extends RecyclerView.Adapter {
     private FrameLayout footerView;
     private View footerContentView;
     protected boolean isShowFooter = false;
-    protected final List<T> mDataList = new ArrayList<>();
+    protected final List<T> mDataList = new ArrayList<T>();
 
     protected RecyclerLoadMoreAdapater() { }
 

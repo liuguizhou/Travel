@@ -52,15 +52,16 @@ public class ToEntertainActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData(Bundle savedInstanceState) {
         initBean();
-        mSlideAdapter = new SlideAdapter();
+        mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
+        mSlideAdapter = new SlideAdapter();
         mRecyclerView.setAdapter(mSlideAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
         if (mLoadingFooter == null) {
             mLoadingFooter = new LoadingFooter(this);
             mSlideAdapter.setFooterView(mLoadingFooter);
         }
-        getDataTask(false);
+        getDataTask();
     }
 
     @Override
@@ -117,7 +118,7 @@ public class ToEntertainActivity extends BaseActivity implements View.OnClickLis
                     lastPosition = lastPosition + result.size();
                 }
             }
-        }, 1000);
+        }, 2000);
     }
 
     public List<ItemBean> getData() {

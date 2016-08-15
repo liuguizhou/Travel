@@ -8,7 +8,6 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -25,8 +24,10 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("Login")
     Observable<Result> getFamousList(@FieldMap Map<String, String> map);
-
-    @Headers({"platform:android","key:123456","version:1.0"})
+    @FormUrlEncoded
     @POST("Login")
-    Call<Result> getUser(@Query("Mobile") String phone, @Query("PassWord") String password);
+    Observable<Result> getUser(@Field("Mobile") String phone, @Field("PassWord") String password);
+
+    @POST("Login")
+    Call<Result> getUser2(@Query("Mobile") String phone, @Query("PassWord") String password);
 }

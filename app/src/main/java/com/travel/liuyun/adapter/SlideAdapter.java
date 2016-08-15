@@ -1,6 +1,5 @@
 package com.travel.liuyun.adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ public class SlideAdapter extends RecyclerLoadMoreAdapater {
     public static final int NORMAL = 1000;
     public static final int SLIDE = 2000;
     private int mState = NORMAL;
-    private List<ItemBean> mItemBeans;
+    //    private List<T> mItemBeans = new ArrayList<T>();
     private List<SlideViewHolder> mSlideViewHolders = new ArrayList<>();
 
     public void openItemAnimation() {
@@ -39,13 +38,6 @@ public class SlideAdapter extends RecyclerLoadMoreAdapater {
         for (SlideViewHolder holder : mSlideViewHolders) {
             holder.closeItemAnimation();
         }
-    }
-
-    @Override
-    public void addAll(@NonNull List data) {
-//        super.addAll(data);
-        this.mItemBeans.addAll(data);
-        this.notifyDataSetChanged();
     }
 
 
@@ -89,13 +81,15 @@ public class SlideAdapter extends RecyclerLoadMoreAdapater {
     public void onBindViewHolderSuper(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolderSuper(holder, position);
         SlideViewHolder slideViewHolder = (SlideViewHolder) holder;
-        ((SlideViewHolder) holder).bind(mItemBeans.get(position));
-        slideViewHolder.title.setText(mItemBeans.get(position).getTitle());
+        ItemBean mBean = (ItemBean) mDataList.get(slideViewHolder.getLayoutPosition());
+        slideViewHolder.bind(mBean);
+        slideViewHolder.title.setText(mBean.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return mItemBeans == null ? 0 : mItemBeans.size();
+//        return mDataList == null ? 0 : mDataList.size();
+        return super.getItemCount();
     }
 
     private class SlideViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
