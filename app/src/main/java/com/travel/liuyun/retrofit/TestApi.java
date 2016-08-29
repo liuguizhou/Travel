@@ -12,12 +12,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TestApi {
 
     /**
-     * HOST地址
+     * Base_Url
      */
     public static final String BASE_URL = "http://api.7mlzg.com/Business/";
+    
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
     /**
-     * 获取PhoneApi实例
+     * 获取TestApi实例
      * @return
      */
     public static TestApi getApi(){
@@ -40,7 +41,7 @@ public class TestApi {
     }
 
     /**
-     * 获取PhoneService实例
+     * 获取CommonService实例
      * @return
      */
     public CommonService getService(){
