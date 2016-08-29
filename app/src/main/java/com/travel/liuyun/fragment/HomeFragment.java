@@ -24,6 +24,8 @@ import com.travel.liuyun.adapter.GridAdapter;
 import com.travel.liuyun.adapter.SceneGridAdapter;
 import com.travel.liuyun.bean.Result;
 import com.travel.liuyun.retrofit.LoginApi;
+import com.travel.liuyun.retrofit.TestApi;
+import com.travel.liuyun.utils.CommonUtils;
 import com.travel.liuyun.utils.DataProvider;
 import com.travel.liuyun.utils.ViewFindUtils;
 import com.travel.liuyun.widget.CustomGridView;
@@ -33,9 +35,15 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -135,7 +143,8 @@ public class HomeFragment extends BaseFragment {
                         break;
                     case 3:
                         try {
-                            uploadFile("/mnt/sdcard/MCM/1.JPG");
+//                            uploadFile("storage/sdcard0/MGJ-IM/images/ff.jpg");
+                            upLoadHeadImage("storage/sdcard0/yymobile/image/hh.jpg");
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -185,7 +194,7 @@ public class HomeFragment extends BaseFragment {
                                     }
                                 });
 */
-                        new LoginApi().getUser("15256298062","123456").subscribe(new Observer<Result>() {
+                        new LoginApi().getUser("15256298062", "123456").subscribe(new Observer<Result>() {
                             @Override
                             public void onCompleted() {
                                 Log.e("lgz", "onCompleted:");
@@ -193,12 +202,12 @@ public class HomeFragment extends BaseFragment {
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e("lgz", "e: "+e.toString());
+                                Log.e("lgz", "e: " + e.toString());
                             }
 
                             @Override
                             public void onNext(Result result) {
-                                Log.e("lgz", "status = : "+result.getStatus()+" message = "+result.getMessage());
+                                Log.e("lgz", "status = : " + result.getStatus() + " message = " + result.getMessage());
                             }
                         });
 
@@ -239,7 +248,9 @@ public class HomeFragment extends BaseFragment {
             //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();
-                if (bundle == null) {return;}
+                if (bundle == null) {
+                    return;
+                }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
@@ -308,6 +319,39 @@ public class HomeFragment extends BaseFragment {
                     // 返回重试次数
                 }
 
+            });
+        } else {
+            Toast.makeText(getActivity(), "文件不存在", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void upLoadHeadImage(String path) throws FileNotFoundException {
+        File file = new File(path);
+        if (file.exists() && file.length() > 0) {
+            Map<String, RequestBody> params = new HashMap<>();
+            params.put("platform", CommonUtils.toRequestBody("android"));
+            params.put("version", CommonUtils.toRequestBody("1.0"));
+            params.put("key", CommonUtils.toRequestBody("123456"));
+            params.put("ID", CommonUtils.toRequestBody("6488"));
+            params.put("HeadImg\"; filename=\""+file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
+
+            TestApi.getApi().getService().upLoadPicture(params).subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Result>() {
+                @Override
+                public void onCompleted() {
+                    Log.e("lgz", "onCompleted");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("lgz", "e = "+e.toString());
+                }
+
+                @Override
+                public void onNext(Result result) {
+                    Log.e("lgz", "result = "+result.getStatus()+"data = "+result.getData());
+                    Toast.makeText(getActivity(), result.getMessage(), Toast.LENGTH_LONG).show();
+                }
             });
         } else {
             Toast.makeText(getActivity(), "文件不存在", Toast.LENGTH_LONG).show();
