@@ -27,6 +27,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHold
 
     private ArrayList<String> paths = new ArrayList<>();
     private int imageSize;
+    private Context ctx;
 
    /* public ImageAdapter(Context context, ArrayList<String> paths)
     {
@@ -34,7 +35,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHold
         setColumnNumber(context,3);
     }*/
 
-    public ImageAdapter() {
+    public ImageAdapter(Context ctx) {
+        this.ctx = ctx;
     }
 
     public void addData(List<String> data){

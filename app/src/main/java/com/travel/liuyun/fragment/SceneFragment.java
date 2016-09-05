@@ -50,7 +50,10 @@ public class SceneFragment extends BaseFragment {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         recyclerView.setLayoutManager(layoutManager);
-        imageAdapter = new ImageAdapter();
+        imageAdapter = new ImageAdapter(getActivity());
+        if(imageAdapter==null){
+            Log.e("lgz", "imageAdapter==null");
+        }
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -96,7 +99,7 @@ public class SceneFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("lgz", "filePaths = "+ filePaths.size());
+        Log.e("lgz", "filePaths = 1");
         switch (requestCode) {
             case FilePickerConst.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {

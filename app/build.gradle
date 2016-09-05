@@ -42,7 +42,8 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     //照片文件选择框架
-    compile 'com.droidninja:filepicker:1.0.4'
+//    compile 'com.droidninja:filepicker:1.0.4'
+    compile project(':filepicker')
     //Volley请求框架
     compile 'com.mcxiaoke.volley:library:1.0.19'
     // 二维码扫描

@@ -1,7 +1,10 @@
 package com.travel.liuyun.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +16,8 @@ import com.travel.liuyun.fragment.EnjoyFragment;
 import com.travel.liuyun.fragment.HomeFragment;
 import com.travel.liuyun.fragment.PersonalFragment;
 import com.travel.liuyun.fragment.SceneFragment;
+
+import droidninja.filepicker.FilePickerConst;
 
 public class MainActivity extends BaseActivity {
 
@@ -69,6 +74,19 @@ public class MainActivity extends BaseActivity {
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(textId);
         return view;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("lgz", "onActivityResult of MainActivity ! " );
+        switch (requestCode) {
+            case FilePickerConst.REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS);
+                    Log.e("lgz", "filePaths = "+  data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS).size());
+                }
+        }
     }
 
     @Override
