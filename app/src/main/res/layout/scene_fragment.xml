@@ -30,6 +30,12 @@
         android:layout_height="wrap_content"
         android:text="选择 文件" />
 
+    <Button
+        android:id="@+id/create_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="弹出 dialog" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package com.travel.liuyun.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
@@ -12,12 +11,11 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.travel.liuyun.R;
+import com.travel.liuyun.callback.OnActivityResultPickListener;
 import com.travel.liuyun.fragment.EnjoyFragment;
 import com.travel.liuyun.fragment.HomeFragment;
 import com.travel.liuyun.fragment.PersonalFragment;
 import com.travel.liuyun.fragment.SceneFragment;
-
-import droidninja.filepicker.FilePickerConst;
 
 public class MainActivity extends BaseActivity {
 
@@ -39,7 +37,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         layoutInflater = LayoutInflater.from(mContext);
-        mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.main_content);
         mTabHost.getTabWidget().setDividerDrawable(null);
         TabHost.TabSpec tabSpec =
@@ -58,7 +56,7 @@ public class MainActivity extends BaseActivity {
         tabSpec =
                 mTabHost.newTabSpec(getString(R.string.personal))
                         .setIndicator(getTabItemView(R.drawable.personal_selector, R.string.personal));
-        mTabHost.addTab(tabSpec,PersonalFragment.class,null);
+        mTabHost.addTab(tabSpec, PersonalFragment.class, null);
     }
 
 
@@ -79,14 +77,19 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("lgz", "onActivityResult of MainActivity ! " );
-        switch (requestCode) {
-            case FilePickerConst.REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS);
-                    Log.e("lgz", "filePaths = "+  data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS).size());
-                }
+        Log.e("lgz", "onActivityResult of MainActivity ! ");
+        // 获取当前活动的Activity实例
+//        Activity liveActivity = getApplication().getLocalActivityManager().getCurrentActivity();
+        //判断是否实现返回值接口
+
+        if (SceneFragment.newInstance() instanceof OnActivityResultPickListener) {
+            //获取返回值接口实例
+            OnActivityResultPickListener listener = (OnActivityResultPickListener) SceneFragment.newInstance();
+            //转发请求到子Activity
+            listener.onActivityResultPicker(requestCode, resultCode, data);
+            Log.e("lgz", "listener.onActivityResultPicker");
         }
+
     }
 
     @Override

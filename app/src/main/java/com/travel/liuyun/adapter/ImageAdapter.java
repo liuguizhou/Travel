@@ -1,5 +1,4 @@
 package com.travel.liuyun.adapter;
-
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +13,6 @@ import com.travel.liuyun.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,27 +23,16 @@ import droidninja.filepicker.utils.image.FrescoFactory;
  */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHolder> {
 
-    private ArrayList<String> paths = new ArrayList<>();
+    private final ArrayList<String> paths;
     private int imageSize;
-    private Context ctx;
 
-   /* public ImageAdapter(Context context, ArrayList<String> paths)
+    public ImageAdapter(Context context, ArrayList<String> paths)
     {
         this.paths = paths;
         setColumnNumber(context,3);
-    }*/
-
-    public ImageAdapter(Context ctx) {
-        this.ctx = ctx;
     }
 
-    public void addData(List<String> data){
-        paths.clear();
-        paths.addAll(data);
-        notifyDataSetChanged();
-    }
-
-    public void setColumnNumber(Context context, int columnNum) {
+    private void setColumnNumber(Context context, int columnNum) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metrics);
@@ -68,7 +55,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHold
 
     @Override
     public int getItemCount() {
-        return paths.size()==0?0:paths.size();
+        return paths.size();
     }
 
     public static class FileViewHolder extends RecyclerView.ViewHolder {
