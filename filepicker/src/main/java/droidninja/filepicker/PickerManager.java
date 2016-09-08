@@ -56,6 +56,7 @@ public class PickerManager {
             if(pickerManagerListener!=null)
                 pickerManagerListener.onItemSelected(currentCount);
         }
+
     }
 
     public void remove(BaseFile file)

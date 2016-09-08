@@ -23,6 +23,8 @@ public class MainActivity extends BaseActivity {
 
     private FragmentTabHost mTabHost;
 
+    private OnActivityResultPickListener listener;
+
 
     @Override
     protected int getLayoutId() {
@@ -77,19 +79,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("lgz", "onActivityResult of MainActivity ! ");
-        // 获取当前活动的Activity实例
-//        Activity liveActivity = getApplication().getLocalActivityManager().getCurrentActivity();
-        //判断是否实现返回值接口
-
-        if (SceneFragment.newInstance() instanceof OnActivityResultPickListener) {
-            //获取返回值接口实例
-            OnActivityResultPickListener listener = (OnActivityResultPickListener) SceneFragment.newInstance();
-            //转发请求到子Activity
-            listener.onActivityResultPicker(requestCode, resultCode, data);
-            Log.e("lgz", "listener.onActivityResultPicker");
-        }
-
     }
 
     @Override
@@ -101,6 +90,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onStop() {
         super.onStop();
+        Log.e("lgz", "MainActivity,onStop: ");
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("lgz", "MainActivity,onDestroy: ");
     }
 }

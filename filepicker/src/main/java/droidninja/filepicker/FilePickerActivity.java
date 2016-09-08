@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,11 +17,11 @@ import droidninja.filepicker.fragments.PhotoPickerFragment;
 import droidninja.filepicker.utils.FragmentUtil;
 
 public class FilePickerActivity extends AppCompatActivity implements PhotoPickerFragment.PhotoPickerFragmentListener, DocFragment.PhotoPickerFragmentListener,
-        PickerManagerListener{
+        PickerManagerListener {
 
     private static final String TAG = FilePickerActivity.class.getSimpleName();
     private int type;
-    private Intent intent;
+//    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,8 @@ public class FilePickerActivity extends AppCompatActivity implements PhotoPicker
     }
 
     private void initView() {
-        intent = getIntent();
-        if(intent!=null)
-        {
+        Intent intent = getIntent();
+        if (intent != null) {
             setUpToolbar();
 
             ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS);
@@ -45,26 +45,22 @@ public class FilePickerActivity extends AppCompatActivity implements PhotoPicker
             setToolbarTitle(0);
 
             PickerManager.getInstance().setPickerManagerListener(this);
-            openSpecificFragment(type,selectedPaths);
+            openSpecificFragment(type, selectedPaths);
         }
     }
 
     private void setUpToolbar() {
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null)
-        {
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    private void openSpecificFragment(int type, ArrayList<String> selectedPaths)
-    {
-        if(type==FilePickerConst.PHOTO_PICKER)
-        {
+    private void openSpecificFragment(int type, ArrayList<String> selectedPaths) {
+        if (type == FilePickerConst.PHOTO_PICKER) {
             PhotoPickerFragment photoFragment = PhotoPickerFragment.newInstance(selectedPaths);
             FragmentUtil.addFragment(this, R.id.container, photoFragment);
-        }
-        else {
+        } else {
             DocPickerFragment photoFragment = DocPickerFragment.newInstance(selectedPaths);
             FragmentUtil.addFragment(this, R.id.container, photoFragment);
         }
@@ -72,13 +68,11 @@ public class FilePickerActivity extends AppCompatActivity implements PhotoPicker
 
     private void setToolbarTitle(int count) {
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null)
-        {
-            if(count>0)
+        if (actionBar != null) {
+            if (count > 0)
                 actionBar.setTitle("已选择文件 (" + count + "/" + PickerManager.getInstance().getMaxCount() + ")");
-            else
-            {
-                if(type==FilePickerConst.PHOTO_PICKER)
+            else {
+                if (type == FilePickerConst.PHOTO_PICKER)
                     actionBar.setTitle("图片选择");
                 else
                     actionBar.setTitle("文件选择");
@@ -96,16 +90,14 @@ public class FilePickerActivity extends AppCompatActivity implements PhotoPicker
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_done) {
-//            Intent intent = new Intent();
+            Intent intent = new Intent();
             intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS, PickerManager.getInstance().getSelectedFilePaths());
-            Log.e("lgz", "filesize =  "+PickerManager.getInstance().getSelectedFilePaths().size());
+            Log.e("lgz", "filesize =  " + PickerManager.getInstance().getSelectedFilePaths().size());
             setResult(RESULT_OK, intent);
             finish();
 
             return true;
-        }
-        else if(i == android.R.id.home)
-        {
+        } else if (i == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -115,6 +107,9 @@ public class FilePickerActivity extends AppCompatActivity implements PhotoPicker
     @Override
     public void onItemSelected(int currentCount) {
         setToolbarTitle(currentCount);
+        if (!PickerManager.getInstance().shouldAdd()) {
+            Toast.makeText(FilePickerActivity.this, "最多可选" + PickerManager.getInstance().getMaxCount(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

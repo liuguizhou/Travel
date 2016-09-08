@@ -148,8 +148,8 @@ public class PhotoPickerFragment extends BaseFragment {
 
 //            if(photoGridAdapter!=null)
 //            {
-                photoGridAdapter.setData(photos);
-                photoGridAdapter.notifyDataSetChanged();
+        photoGridAdapter.setData(photos);
+        photoGridAdapter.notifyDataSetChanged();
 //            }
            /* else
             {

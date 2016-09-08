@@ -1,8 +1,10 @@
 package com.travel.liuyun.adapter;
+
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +25,20 @@ import droidninja.filepicker.utils.image.FrescoFactory;
  */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHolder> {
 
-    private final ArrayList<String> paths;
+    private ArrayList<String> paths;
     private int imageSize;
+    private Context ctx;
 
-    public ImageAdapter(Context context, ArrayList<String> paths)
-    {
+    public ImageAdapter(Context context, ArrayList<String> paths) {
+        this.ctx = context;
         this.paths = paths;
         setColumnNumber(context,3);
+    }
+
+    public void addData(ArrayList<String> path) {
+        paths = path;
+        notifyDataSetChanged();
+        Log.e("lgz", "addData: ");
     }
 
     private void setColumnNumber(Context context, int columnNum) {
@@ -50,12 +59,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHold
     @Override
     public void onBindViewHolder(FileViewHolder holder, int position) {
         String path = paths.get(position);
+        Log.e("lgz", "paths: "+paths.size() );
         FrescoFactory.getLoader().showImage(holder.imageView, Uri.fromFile(new File(path)), FrescoFactory.newOption(imageSize,imageSize));
+//        Glide.with(ctx).load(new File(path)).placeholder(R.mipmap.image_placeholder).crossFade().into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return paths.size();
+        return paths == null ? 0 : paths.size();
     }
 
     public static class FileViewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +76,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.FileViewHold
 
         public FileViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

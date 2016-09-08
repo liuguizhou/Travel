@@ -17,14 +17,14 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder, T ex
   protected List<T> selectedPhotos;
 
   public SelectableAdapter(List<T> items, List<String> selectedPaths) {
-    this.items = items;
+//    this.items = items;
     selectedPhotos = new ArrayList<>();
 
     addPathsToSelections(selectedPaths);
   }
 
   private void addPathsToSelections(List<String> selectedPaths) {
-    if(selectedPaths==null)
+    if(selectedPaths==null||items== null)
       return;
 
     for (int index = 0; index < items.size(); index++) {

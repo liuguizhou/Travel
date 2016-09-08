@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.travel.liuyun.R;
 import com.travel.liuyun.adapter.ImageAdapter;
-import com.travel.liuyun.callback.OnActivityResultPickListener;
 
 import java.util.ArrayList;
 
@@ -30,13 +29,14 @@ import droidninja.filepicker.FilePickerConst;
 /**
  * Created by liuguizhou on 2016/5/1.
  */
-public class SceneFragment extends BaseFragment implements OnActivityResultPickListener {
+public class SceneFragment extends BaseFragment {
     private View rootView;
     private ArrayList<String> filePaths;
     private RecyclerView recyclerView;
     private Button button_photo;
     private Button button_doc;
     private Button dialog;
+    private ImageAdapter imageAdapter;
     public static SceneFragment sceneFragment;
 
     public SceneFragment() {
@@ -51,6 +51,7 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sceneFragment = this;
 
     }
 
@@ -61,6 +62,10 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
         button_photo = (Button) view.findViewById(R.id.pick_photo);
         dialog = (Button) view.findViewById(R.id.create_dialog);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -86,7 +91,7 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
                 FilePickerBuilder.getInstance().setMaxCount(6)
                         .setSelectedFiles(filePaths)
                         .setActivityTheme(R.style.AppTheme)
-                        .pickPhoto(getActivity());
+                        .pickPhoto(sceneFragment);
             }
         });
         button_doc.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +100,7 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
                 FilePickerBuilder.getInstance().setMaxCount(12)
                         .setSelectedFiles(filePaths)
                         .setActivityTheme(R.style.AppTheme)
-                        .pickDocument(getActivity());
+                        .pickDocument(sceneFragment);
             }
         });
         dialog.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +119,8 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
                 adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position, String text) {
-                        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getHoldingActivity(), text, Toast.LENGTH_SHORT).show();
+                        Log.e("lgz", "onItemClick: ");
                         dialog.dismiss();
                     }
                 });
@@ -122,27 +128,39 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
         });
     }
 
-    private void addThemToView(ArrayList<String> filePaths) {
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL);
-        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new ImageAdapter(getActivity(), filePaths));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+    private void addThemToView(ArrayList<String> filePath) {
+        imageAdapter = new ImageAdapter(getActivity(), filePaths);
+        recyclerView.setAdapter(imageAdapter);
+        Log.e("lgz", "addThemToView: ");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.e("lgz", "onPause: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("lgz", "onStop: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e("lgz", "onDestroyView: ");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e("lgz", "onDestroy: ");
     }
 
     @Override
-    public void onActivityResultPicker(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case FilePickerConst.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
@@ -151,6 +169,7 @@ public class SceneFragment extends BaseFragment implements OnActivityResultPickL
                     addThemToView(filePaths);
                 }
         }
+        Log.e("lgz", "onActivityResult,fragment ");
     }
 
     static class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
