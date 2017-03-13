@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.travel.liuyun"
@@ -26,13 +26,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.nineoldandroids:library:2.4.0'
+    // 广告 轮播图 控件
     compile 'com.flyco.banner:FlycoBanner_Lib:2.0.2@aar'
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:support-v4:24.0.0'
@@ -41,9 +42,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-    //照片文件选择框架
-//    compile 'com.droidninja:filepicker:1.0.4'
-    compile project(':filepicker')
     //Volley请求框架
     compile 'com.mcxiaoke.volley:library:1.0.19'
     // 二维码扫描
@@ -53,9 +51,15 @@ dependencies {
     //编译RxAndroid
     compile 'io.reactivex:rxandroid:1.2.1'
     //编译Retrofit及其相关库，包括Gson
-    compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    // Gson 解析
+    compile 'com.google.code.gson:gson:2.7'
+    //  自定义 加载中  对话框
+    compile 'com.github.d-max:spots-dialog:0.7@aar'
+    //  广告轮播图 控件
+    compile 'com.daimajia.slider:library:1.1.5'
 }

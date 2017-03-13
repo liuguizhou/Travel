@@ -1,9 +1,9 @@
 package com.travel.liuyun.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.DialogActivity;
 import com.travel.liuyun.activity.ImpressionActivity;
 import com.travel.liuyun.activity.ToEntertainActivity;
 import com.travel.liuyun.activity.ToLiveActivity;
@@ -23,6 +24,8 @@ import com.travel.liuyun.activity.TripNewsActivity;
 import com.travel.liuyun.adapter.GridAdapter;
 import com.travel.liuyun.adapter.SceneGridAdapter;
 import com.travel.liuyun.bean.Result;
+import com.travel.liuyun.okhttp.LoadCallBack;
+import com.travel.liuyun.okhttp.OkHttpManager;
 import com.travel.liuyun.retrofit.LoginApi;
 import com.travel.liuyun.retrofit.TestApi;
 import com.travel.liuyun.utils.CommonUtils;
@@ -39,8 +42,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -142,19 +147,49 @@ public class HomeFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 3:
-                        try {
+                       /* try {
 //                            uploadFile("storage/sdcard0/MGJ-IM/images/ff.jpg");
-                            upLoadHeadImage("storage/sdcard0/yymobile/image/hh.jpg");
+//                            upLoadHeadImage("storage/sdcard0/yymobile/image/hh.jpg");
+
+
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
-                        }
+                        }*/
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("platform", "android");
+                        params.put("version", "1.0");
+                        params.put("key", "123456");
+                        params.put("ID", "6488");
+                        OkHttpManager.getInstance().postUploadSingleImage("http://api.7mlzg.com/Business/ModifyGuestInfo", new LoadCallBack<String>(getActivity()) {
+                            @Override
+                            protected void onSuccess(Call call, Response response, String s) {
+                                Log.e("lgz", "onSuccess =  " + s);
+                                Toast.makeText(getActivity(), "上传成功", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            protected void onEror(Call call, int statusCode, Exception e) {
+
+                            }
+                        }, new File("storage/emulated/0/LGImgCompressor/Images/Hhh.jpg"), "HeadImg", params);
                         break;
                     case 4:
-                        Snackbar.make(view, "要删除数据吗？", Snackbar.LENGTH_LONG).setAction("Undo?", new View.OnClickListener() {
+                       /* Snackbar.make(view, "要删除数据吗？", Snackbar.LENGTH_LONG).setAction("Undo?", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                             }
-                        }).show();
+                        }).show();*/
+//                        Intent intent22 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        startActivityForResult(intent22, 0011);
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+                        startActivity(new Intent(getActivity(), ImpressionActivity.class));
+                        startActivity(new Intent(getActivity(), DialogActivity.class));
+//                            }
+//                        }, 50);
+
+
                         break;
                     case 5:
 
@@ -215,6 +250,28 @@ public class HomeFragment extends BaseFragment {
                     case 6:
                         Intent intentScanning = new Intent(getActivity(), CaptureActivity.class);
                         startActivityForResult(intentScanning, REQUEST_CODE);
+                        break;
+                    case 7:
+                        LoadCallBack callBack = new LoadCallBack<String>(getActivity()) {
+
+                            @Override
+                            protected void onSuccess(Call call, Response response, String s) {
+                                super.onSuccess(call,response,s);
+                                Log.e("lgz", "status = : " + s);
+                                Toast.makeText(getActivity(), "下载成功", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                Uri uri = Uri.fromFile(new File(s));
+                                intent.setData(uri);
+                                getActivity().sendBroadcast(intent);
+                            }
+
+                            @Override
+                            protected void onEror(Call call, int statusCode, Exception e) {
+                                Log.e("lgz", "Exception = : " + e);
+                            }
+                        };
+                        OkHttpManager.getInstance().asynDownloadFile("http://www.7mlzg.com/uploads/bwf_1477419976.jpg", "storage/emulated/0/Girls/", callBack);
+                        callBack.setMsg("正在下载...");
                         break;
                     default:
                         Toast.makeText(getActivity(), "position>>" + position, Toast.LENGTH_SHORT).show();
@@ -333,7 +390,7 @@ public class HomeFragment extends BaseFragment {
             params.put("version", CommonUtils.toRequestBody("1.0"));
             params.put("key", CommonUtils.toRequestBody("123456"));
             params.put("ID", CommonUtils.toRequestBody("6488"));
-            params.put("HeadImg\"; filename=\""+file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
+            params.put("HeadImg\"; filename=\"" + file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
 
             TestApi.getApi().getService().upLoadPicture(params).subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Result>() {
@@ -344,12 +401,12 @@ public class HomeFragment extends BaseFragment {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("lgz", "e = "+e.toString());
+                    Log.e("lgz", "e = " + e.toString());
                 }
 
                 @Override
                 public void onNext(Result result) {
-                    Log.e("lgz", "result = "+result.getStatus()+"data = "+result.getData());
+                    Log.e("lgz", "result = " + result.getStatus() + "data = " + result.getData());
                     Toast.makeText(getActivity(), result.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

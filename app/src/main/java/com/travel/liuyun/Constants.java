@@ -16,5 +16,6 @@ public class Constants {
     public static final String MODIFY_USERINFO_MSG = SERVER_URL + "ModifyGuestInfo";
     public static final String MODIFY_USER_INFO = SERVER_URL + "ModifyGuestInfo";
     public static final String UPLOAD_PICTURE = "http://api.7mlzg.com/Common/UploadPicture";
+    public static final String LOGIN_URL = SERVER_URL + "Login";
 
 }
