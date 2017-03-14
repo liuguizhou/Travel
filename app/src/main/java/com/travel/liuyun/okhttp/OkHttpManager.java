@@ -43,9 +43,10 @@ public class OkHttpManager {
     private Handler handler;
 
     private OkHttpManager() {
-        mOkHttpClient = new OkHttpClient();
-        mOkHttpClient.newBuilder().connectTimeout(10, TimeUnit.SECONDS).readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS);
+        mOkHttpClient = new OkHttpClient.Builder().addInterceptor(new LogInterceptor())
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS).build();
 
 //        new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).readTimeout(10,TimeUnit.SECONDS)
 //                .writeTimeout(10,TimeUnit.SECONDS);
@@ -133,7 +134,7 @@ public class OkHttpManager {
 //                callBack.onResponse(response);
 
                 InputStream is = null;
-                byte[] buf = new byte[1024*2];
+                byte[] buf = new byte[1024 * 2];
                 final long fileLength = response.body().contentLength();
                 int len = 0;
                 long readLength = 0;
