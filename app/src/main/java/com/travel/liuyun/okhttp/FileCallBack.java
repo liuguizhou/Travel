@@ -56,6 +56,11 @@ public abstract class FileCallBack<T> extends BaseCallBack<T> {
     }
 
     @Override
+    protected void onResponse(Response response) {
+
+    }
+
+    @Override
     protected void onEror(Call call, int statusCode, Exception e) {
         hideDialog();
     }

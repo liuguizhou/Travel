@@ -270,7 +270,7 @@ public class HomeFragment extends BaseFragment {
                                 Log.e("lgz", "Exception = : " + e);
                             }
                         };
-                        OkHttpManager.getInstance().asynDownloadFile("http://www.7mlzg.com/uploads/bwf_1477419976.jpg", "storage/emulated/0/Girls/", callBack);
+                        OkHttpManager.getInstance().asynDownloadFile("http://img06.tooopen.com/images/20160919/tooopen_sy_179298217832.jpg", "storage/emulated/0", callBack);
                         callBack.setMsg("正在下载...");
                         break;
                     default:

@@ -1,6 +1,7 @@
 package com.travel.liuyun.okhttp;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -14,6 +15,7 @@ import okhttp3.Response;
  */
 //添加对请求时对话框的处理
 public abstract class LoadCallBack<T> extends BaseCallBack<T> {
+    private static final String TAG = LoadCallBack.class.getSimpleName();
     private Context context;
     private SpotsDialog spotsDialog;
 
@@ -54,7 +56,13 @@ public abstract class LoadCallBack<T> extends BaseCallBack<T> {
 
     @Override
     protected void onSuccess(Call call, Response response, T t) {
+        Log.d(TAG, "onSuccess: ");
         hideDialog();
+    }
+
+    @Override
+    protected void onEror(Call call, int statusCode, Exception e) {
+
     }
 
     @Override

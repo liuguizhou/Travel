@@ -1,5 +1,6 @@
 package com.travel.liuyun.okhttp;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -134,15 +135,16 @@ public class OkHttpManager {
 //                callBack.onResponse(response);
 
                 InputStream is = null;
-                byte[] buf = new byte[1024 * 2];
+                byte[] buf = new byte[1024 * 2];//2K的缓冲
                 final long fileLength = response.body().contentLength();
                 int len = 0;
                 long readLength = 0;
                 FileOutputStream fos = null;
+                String savePath = isExistDir(destFileDir);
                 try {
                     is = response.body().byteStream();
-                    File file = new File(destFileDir, getFileName(url));
-                    fos = new FileOutputStream(file);
+                    File file = new File(savePath, getFileName(url));
+                    fos = new FileOutputStream(file,true);
                     while ((len = is.read(buf)) != -1) {
                         fos.write(buf, 0, len);
                         readLength += len;
@@ -308,6 +310,21 @@ public class OkHttpManager {
             }
         }
         return builder.build();
+    }
+
+    /**
+     * @param saveDir
+     * @return
+     * @throws IOException 判断下载目录是否存在
+     */
+    private String isExistDir(String saveDir) throws IOException {
+        // 下载位置
+        File downloadFile = new File(Environment.getExternalStorageDirectory(), saveDir);
+        if (!downloadFile.mkdirs()) {
+            downloadFile.createNewFile();
+        }
+        String savePath = downloadFile.getAbsolutePath();
+        return savePath;
     }
 
     private void callBackSuccess(final BaseCallBack callBack, final Call call, final Response response, final Object object) {

@@ -21,14 +21,14 @@ public class LogInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Log.e("lgz", "go>>>>>>>>>>>>>>>>>>>>>>");
+        Log.e(TAG, "go>>>>>>>>>>>>>>>>>>>>>>");
         Request request = chain.request();
         long startTime = System.currentTimeMillis();
         Response response = chain.proceed(request);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         MediaType mediaType = response.body().contentType();
-        String content = response.body().string();
+        String content = response.body().string();//开启多个下载任务，无响应一段时间后会出现 OOM ; （此法输出日志的方式 有问题）created by lgz
         Log.e(TAG, "\n");
         Log.e(TAG, "----------Start----------------");
         Log.e(TAG, "| " + request.toString());
@@ -46,6 +46,7 @@ public class LogInterceptor implements Interceptor {
         }
         Log.d(TAG, "| Response:" + content);
         Log.d(TAG, "----------End:" + duration + "毫秒----------");
+        response.body().close();
         return response.newBuilder()
                 .body(okhttp3.ResponseBody.create(mediaType, content))
                 .build();
