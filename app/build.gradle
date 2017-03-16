@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
@@ -10,6 +11,11 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+    }
+    sourceSets{
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+        }
     }
     buildTypes {
         release {
@@ -63,4 +69,5 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'org.greenrobot:greendao:3.2.0'
 }
