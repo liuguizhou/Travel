@@ -9,9 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +22,7 @@ import android.widget.Toast;
 
 import com.travel.liuyun.Constants;
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.GreenDaoActivity;
 import com.travel.liuyun.callback.OnItemClickListener;
 import com.travel.liuyun.okhttp.LoadCallBack;
 import com.travel.liuyun.okhttp.OkHttpManager;
@@ -49,8 +48,8 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
     EditText username;
     @BindView(R.id.password)
     EditText password;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
+    @BindView(R.id.greendao)
+    Button greendao;
     @BindView(R.id.commit)
     Button commit;
     @BindView(R.id.downloadfile)
@@ -80,10 +79,6 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
     protected void initView(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         Log.e("lgz", "initView");
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL);
-        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        recyclerview.setLayoutManager(layoutManager);
-        recyclerview.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -101,6 +96,7 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
         download.setOnClickListener(this);
         commit.setOnClickListener(this);
         dialog.setOnClickListener(this);
+        greendao.setOnClickListener(this);
     }
 
 
@@ -197,6 +193,9 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
                         dialog.dismiss();
                     }
                 });
+                break;
+            case R.id.greendao:
+                startActivity(new Intent(getActivity(), GreenDaoActivity.class));
                 break;
             default:
                 break;

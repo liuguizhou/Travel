@@ -10,6 +10,10 @@ package com.travel.liuyun;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.travel.liuyun.greendao.DaoMaster;
+import com.travel.liuyun.greendao.DaoSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,8 @@ import java.util.List;
 public class TravelApplication extends Application {
     public static Context applicationContext;
     private static TravelApplication instance;
-    
+    private static DaoSession daoSession;
+
     private List<Activity> activitys = new ArrayList<Activity>();
 
     @Override
@@ -30,17 +35,18 @@ public class TravelApplication extends Application {
         super.onCreate();
         applicationContext = this;
         instance = this;
+        setupDatabase();
     }
 
     public static TravelApplication getInstance() {
         return instance;
     }
-    
-    
+
+
     public void addActivity(Activity activity) {
         activitys.add(activity);
     }
-    
+
     public void exit() {
         try {
             for (Activity activity : activitys) {
@@ -51,5 +57,19 @@ public class TravelApplication extends Application {
             System.exit(0);
 
         }
+    }
+
+    /**
+     * 配置数据库
+     */
+    private void setupDatabase() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student.db", null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+
+    public static DaoSession getDaoInstant() {
+        return daoSession;
     }
 }

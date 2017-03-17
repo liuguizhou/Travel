@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by liuguizhou on 2016/5/2.
  */
@@ -35,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });*/
         setContentView(getLayoutId());
+        ButterKnife.bind(this);
         onPreInitView();
         initView();
         initData(savedInstanceState);
