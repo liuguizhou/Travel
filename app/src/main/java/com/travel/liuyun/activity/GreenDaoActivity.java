@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.travel.liuyun.R;
 import com.travel.liuyun.bean.Student;
 import com.travel.liuyun.greendao.GreenDaoManager;
+import com.travel.liuyun.utils.DividerItemDecoration;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class GreenDaoActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         studentAdapter = new StudentAdapter();
         recyclerView.setAdapter(studentAdapter);
     }
@@ -119,7 +121,7 @@ public class GreenDaoActivity extends BaseActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(GreenDaoActivity.this).inflate(R.layout.student_list_item, null);
+            View view = LayoutInflater.from(GreenDaoActivity.this).inflate(R.layout.student_list_item, parent,false);
             return new ViewHolder(view);
         }
 

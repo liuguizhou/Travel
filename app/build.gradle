@@ -64,6 +64,8 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    //对okhttp3.3版本的封装
+    compile 'com.zhy:okhttputils:2.6.2'
     // Gson 解析
     compile 'com.google.code.gson:gson:2.7'
     //  自定义 加载中  对话框
@@ -75,4 +77,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //Greendao 数据库
     compile 'org.greenrobot:greendao:3.2.0'
+
 }

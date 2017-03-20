@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +45,7 @@ public class OkHttpManager {
     private Handler handler;
 
     private OkHttpManager() {
-        mOkHttpClient = new OkHttpClient.Builder().addInterceptor(new LogInterceptor())
+        mOkHttpClient = new OkHttpClient.Builder().addInterceptor(new LoggerInterceptor("travel"))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS).build();

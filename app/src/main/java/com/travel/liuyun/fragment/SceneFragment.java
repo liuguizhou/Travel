@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.travel.liuyun.Constants;
 import com.travel.liuyun.R;
 import com.travel.liuyun.activity.GreenDaoActivity;
@@ -28,20 +30,27 @@ import com.travel.liuyun.okhttp.LoadCallBack;
 import com.travel.liuyun.okhttp.OkHttpManager;
 import com.travel.liuyun.okhttp.download.DownloadUtil;
 import com.travel.liuyun.okhttp.download.OnDownloadListener;
+import com.travel.liuyun.utils.AppInfo;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Request;
 import okhttp3.Response;
 
 /**
  * Created by liuguizhou on 2016/5/1.
  */
 public class SceneFragment extends BaseFragment implements View.OnClickListener {
+    public static String DEVICEID;
+    public static String TOKEN;
     @BindView(R.id.create_dialog)
     Button dialog;
     @BindView(R.id.username)
@@ -92,13 +101,114 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
         Log.e("lgz", "onViewCreated");
     }
 
+    private int generateRandom() {
+        return new Random(100000000).nextInt();
+    }
+
     private void initData() {
         download.setOnClickListener(this);
         commit.setOnClickListener(this);
         dialog.setOnClickListener(this);
         greendao.setOnClickListener(this);
+
+        HashMap params = new HashMap<String, String>();
+        params.put("deviceUUID", DEVICEID);
+        params.put("IMEI", DEVICEID);
+        params.put("clientOS", "Android");
+        params.put("clientOSVersion", AppInfo.getDeviceVersion());
+        params.put("clientResolution",  AppInfo.getScreenSize());
+        HashMap a = new HashMap<String, String>();
+        a.put("string", generateRandom());
+        a.put("token", TOKEN);
+        a.put("deviceUUID", DEVICEID);
+        a.put("clientOS", "Android");
+        a.put("clientOSVersion", AppInfo.getDeviceVersion());
+        a.put("clientVersion", AppInfo.getAppVersionName());
+
+
+//        TBaseApi.postJsonRequest("createsession/1.0", null, params, a, new TBaseCallback<Student>() {
+//
+//            @Override
+//            public void onResponse(TOkHttpResponse<Student> response, int id) {
+//
+//            }
+//        });
+
+        OkHttpUtils
+                .post()
+                .url("http://115.29.206.244:9080/xwy_traveltools/user/createsession/1.0")
+                .addParams("data",initParam(params,a))
+                .build()
+                .execute(new MyStringCallback());
+
+        Map<String, String> loginParams= new HashMap<String, String>();
+        loginParams.put("platform","android");
+        loginParams.put("version","1.0");
+        loginParams.put("key","123456");
+        loginParams.put("Mobile", "15256298062");//phoneNumber:15256298062
+        loginParams.put("PassWord", "123456");//password:123456
+
+        OkHttpUtils
+                .post()
+                .url(Constants.LOGIN_URL).params(loginParams)
+//                .addParams("platform","android")
+//                .addParams("version","1.0")
+//                .addParams("key","123456")
+//                .addParams("Mobile", "15256298062")
+//                .addParams("PassWord", "123456")
+                .build()
+                .execute(new MyStringCallback());
     }
 
+    public class MyStringCallback extends StringCallback
+    {
+        @Override
+        public void onBefore(Request request, int id)
+        {
+
+        }
+
+        @Override
+        public void onAfter(int id)
+        {
+
+        }
+
+        @Override
+        public void onError(Call call, Exception e, int id)
+        {
+            e.printStackTrace();
+            Log.e("lgz", "onError："+e.getMessage());
+        }
+
+        @Override
+        public void onResponse(String response, int id)
+        {
+            Log.e("lgz", "onResponse：complete");
+
+            switch (id)
+            {
+                case 100:
+                    Toast.makeText(getActivity(), "http", Toast.LENGTH_SHORT).show();
+                    break;
+                case 101:
+                    Toast.makeText(getActivity(), "https", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
+
+    private String initParam(Map<String, String> pri_param, Map<String, String> pub_param) {
+
+        Map<String,Object> args = new HashMap<>();
+        Map<String,Object> data = new HashMap<>();
+
+        args.put("a",pub_param);
+        args.put("b",pri_param);
+        args.put("c",new JsonObject());
+       String json = new Gson().toJson(args);
+        return json ;
+    }
 
     @Override
     public void onClick(View v) {

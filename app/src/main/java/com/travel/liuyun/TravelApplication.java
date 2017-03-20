@@ -14,9 +14,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.travel.liuyun.greendao.DaoMaster;
 import com.travel.liuyun.greendao.DaoSession;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Application类
@@ -36,6 +41,19 @@ public class TravelApplication extends Application {
         applicationContext = this;
         instance = this;
         setupDatabase();
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
+//                .readTimeout(10*1000L, TimeUnit.MILLISECONDS)
+//                .build();
+//        TOkHttpUtils.initClient(client) ;
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new LoggerInterceptor("liiuguizhou",true))
+                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+
+        OkHttpUtils.initClient(okHttpClient);
     }
 
     public static TravelApplication getInstance() {

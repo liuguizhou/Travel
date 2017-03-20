@@ -1,8 +1,13 @@
 package com.travel.liuyun.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +21,7 @@ import com.travel.liuyun.fragment.EnjoyFragment;
 import com.travel.liuyun.fragment.HomeFragment;
 import com.travel.liuyun.fragment.PersonalFragment;
 import com.travel.liuyun.fragment.SceneFragment;
+import com.travel.liuyun.utils.AppInfo;
 
 public class MainActivity extends BaseActivity {
 
@@ -25,15 +31,41 @@ public class MainActivity extends BaseActivity {
 
     private OnActivityResultPickListener listener;
 
+    private static final int READ_PHONE_STATE_CODE = 123;
+
 
     @Override
     protected int getLayoutId() {
+        requestPhoneStatePermission();
         return R.layout.activity_main;
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
 
+    }
+    private void requestPhoneStatePermission() {
+//        //权限判断
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},
+                    READ_PHONE_STATE_CODE);
+        } else {
+            SceneFragment.DEVICEID = AppInfo.getDeviceUUID();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_PHONE_STATE_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                SceneFragment.DEVICEID = AppInfo.getDeviceUUID();
+            } else {
+                SceneFragment.DEVICEID = AppInfo.getAndroidID();
+            }
+        }
     }
 
     @Override
