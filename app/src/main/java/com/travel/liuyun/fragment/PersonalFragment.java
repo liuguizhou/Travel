@@ -11,8 +11,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -21,6 +25,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.travel.liuyun.Constants;
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.person.CustomViewActivity;
 import com.travel.liuyun.bean.Callback;
 import com.travel.liuyun.bean.DialogButtonItem;
 import com.travel.liuyun.bean.Result;
@@ -36,15 +41,85 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by liuguizhou on 2016/5/1.
  */
 public class PersonalFragment extends BaseFragment {
-    private RelativeLayout background;
-    private View rootView;
-    private ImageView avatar;
+    @BindView(R.id.setting)
+    ImageView setting;
+    @BindView(R.id.nickname)
+    TextView nickname;
+    @BindView(R.id.identity)
+    TextView identity;
+    @BindView(R.id.server_frequency)
+    TextView serverFrequency;
+    @BindView(R.id.server_layout)
+    LinearLayout serverLayout;
+    @BindView(R.id.rating_number)
+    TextView ratingNumber;
+    @BindView(R.id.rating_layout)
+    LinearLayout ratingLayout;
+    @BindView(R.id.my_identity)
+    Button myIdentity;
+    @BindView(R.id.my_information)
+    Button myInformation;
+    @BindView(R.id.my_server)
+    Button myServer;
+    @BindView(R.id.my_visitor)
+    Button myVisitor;
+    @BindView(R.id.my_income)
+    Button myIncome;
+    @BindView(R.id.my_account)
+    Button myAccount;
+    @BindView(R.id.my_tuijian)
+    Button myTuijian;
+    @BindView(R.id.custom_one)
+    Button customOne;
+    @BindView(R.id.custom_two)
+    Button customTwo;
+    @BindView(R.id.tableLayout)
+    TableLayout tableLayout;
+    @BindView(R.id.touxiang)
+    ImageView avatar;
+    @BindView(R.id.backimage)
+    RelativeLayout background;
     private String filePath;
     private ChooseType chooseType;
+
+    @OnClick({R.id.setting, R.id.server_layout, R.id.rating_layout, R.id.my_identity, R.id.my_information, R.id.my_server, R.id.my_visitor, R.id.my_income, R.id.my_account, R.id.my_tuijian, R.id.custom_one, R.id.custom_two})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.setting:
+                break;
+            case R.id.server_layout:
+                break;
+            case R.id.rating_layout:
+                break;
+            case R.id.my_identity:
+                startActivity(new Intent(mActivity, CustomViewActivity.class));
+                break;
+            case R.id.my_information:
+                break;
+            case R.id.my_server:
+                break;
+            case R.id.my_visitor:
+                break;
+            case R.id.my_income:
+                break;
+            case R.id.my_account:
+                break;
+            case R.id.my_tuijian:
+                break;
+            case R.id.custom_one:
+                break;
+            case R.id.custom_two:
+                break;
+        }
+    }
 
     private enum ChooseType {
         AVATAR, BACKGROUND
@@ -54,6 +129,7 @@ public class PersonalFragment extends BaseFragment {
         PersonalFragment fragment = new PersonalFragment();
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +137,7 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        background = (RelativeLayout) view.findViewById(R.id.backimage);
-        avatar = (ImageView) view.findViewById(R.id.touxiang);
+        ButterKnife.bind(this, view);
     }
 
     @Override
@@ -138,7 +213,7 @@ public class PersonalFragment extends BaseFragment {
         );
     }
 
-    private void loadUserInfo(String backImage,String avatarImage) {
+    private void loadUserInfo(final String backImage, String avatarImage) {
         Glide.with(getActivity()).load(backImage)
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(new SimpleTarget<GlideDrawable>() {
             @SuppressLint("NewApi")
@@ -152,6 +227,7 @@ public class PersonalFragment extends BaseFragment {
                 .transform(new CircleTransform(getActivity()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
     }
+
     public void startPhotoZoom(Activity activity, Uri uri, int width, int height) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -242,7 +318,7 @@ public class PersonalFragment extends BaseFragment {
                 Tip.hideLoading();
                 if (result.isSuccess()) {
                     final UserInfo userInfo = result.getData();
-                    loadUserInfo(userInfo.getPictures(),userInfo.getHeadImg());
+                    loadUserInfo(userInfo.getPictures(), userInfo.getHeadImg());
                 } else {
                     Tip.showTip(getActivity(), "图片上传失败，请稍候再试！");
                 }

@@ -1,4 +1,4 @@
-package com.travel.liuyun.activity;
+package com.travel.liuyun.activity.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,26 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.BaseActivity;
 import com.travel.liuyun.utils.ViewFindUtils;
 
 /**
  * Created by liuguizhou on 2016/5/2.
  */
-public class ToLiveActivity extends BaseActivity {
-
-    private TextView title;
+public class ToPlayActivity extends BaseActivity {
 
     private ImageView back;
 
-    private ListView listView;
+    private GridView gridView;
 
-    private int images[] = {R.mipmap.house_item1, R.mipmap.house_item2, R.mipmap.house_item3, R.mipmap.house_item4,
-            R.mipmap.house_item1, R.mipmap.house_item2, R.mipmap.house_item3, R.mipmap.house_item4};
+    private int images[] = {R.mipmap.grid_item1, R.mipmap.grid_item2, R.mipmap.grid_item3,
+            R.mipmap.grid_item4, R.mipmap.grid_item1, R.mipmap.grid_item2,
+            R.mipmap.grid_item3, R.mipmap.grid_item4, R.mipmap.grid_item1, R.mipmap.grid_item2,};
 
     private void initListener() {
         back.setOnClickListener(new View.OnClickListener() {
@@ -53,28 +53,26 @@ public class ToLiveActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.where_live_activity;
+        return R.layout.where_play_activity;
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        title.setText("住哪儿");
-        listView.setAdapter(new ListViewAdapter(this));
+        gridView.setAdapter(new GridViewAdapter(this));
         initListener();
     }
 
     @Override
     protected void initView() {
-        title = (TextView) findViewById(R.id.title_text);
         back = (ImageView) findViewById(R.id.image_back);
-        listView = (ListView) findViewById(R.id.listview);
+        gridView = (GridView) findViewById(R.id.gridView);
     }
 
-    class ListViewAdapter extends BaseAdapter {
+    class GridViewAdapter extends BaseAdapter {
 
         private Context ctx;
 
-        public ListViewAdapter(Context ctx) {
+        public GridViewAdapter(Context ctx) {
             this.ctx = ctx;
         }
 
@@ -98,19 +96,17 @@ public class ToLiveActivity extends BaseActivity {
             ViewHolder viewHolder = null;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-                convertView = LayoutInflater.from(ctx).inflate(R.layout.tolive_item, null);
-                viewHolder.imageView = ViewFindUtils.find(convertView, R.id.image);
+                convertView = LayoutInflater.from(ctx).inflate(R.layout.toplay_item_grid, null);
+                viewHolder.imageView = ViewFindUtils.find(convertView, R.id.grid_item_image);
+                viewHolder.text = ViewFindUtils.find(convertView, R.id.scene_name);
                 viewHolder.map = ViewFindUtils.find(convertView, R.id.map_address);
-                viewHolder.hotel = ViewFindUtils.find(convertView, R.id.hotel);
-                viewHolder.price = ViewFindUtils.find(convertView, R.id.price);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.imageView.setImageResource(images[position]);
-            viewHolder.map.setText("江苏省徐州市贾汪区大洞山路122号");
-            viewHolder.hotel.setText("贾汪大酒店");
-            viewHolder.price.setText("￥120元起");
+            viewHolder.text.setText("大洞山风景区");
+            viewHolder.map.setText("江苏省徐州市贾汪区");
 
             return convertView;
         }
@@ -119,8 +115,7 @@ public class ToLiveActivity extends BaseActivity {
         class ViewHolder {
             ImageView imageView;
             TextView map;
-            TextView hotel;
-            TextView price;
+            TextView text;
         }
     }
 }

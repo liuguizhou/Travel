@@ -1,4 +1,4 @@
-package com.travel.liuyun.activity;
+package com.travel.liuyun.activity.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.BaseActivity;
 import com.travel.liuyun.fragment.TripNewsFragment;
 
 /**

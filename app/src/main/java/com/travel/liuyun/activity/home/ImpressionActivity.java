@@ -1,4 +1,4 @@
-package com.travel.liuyun.activity;
+package com.travel.liuyun.activity.home;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.BaseActivity;
 import com.travel.liuyun.bean.Banner;
 import com.travel.liuyun.okhttp.LoadCallBack;
 import com.travel.liuyun.okhttp.OkHttpManager;

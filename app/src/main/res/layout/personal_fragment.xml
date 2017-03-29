@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/my_background"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/backimage"
         android:layout_width="match_parent"
         android:layout_height="185dp"
-        android:background="@color/blue_color" >
+        android:background="@color/blue_color">
 
         <ImageView
             android:id="@+id/setting"
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/touxiang"
@@ -38,24 +38,24 @@
                 android:id="@+id/nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white_color"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
                 android:shadowColor="@color/gray"
-                android:shadowRadius="1"
                 android:shadowDx="2"
-                android:shadowDy="2"  />
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                android:textColor="@color/white_color"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/identity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white_color"
-                android:textSize="13sp"
                 android:shadowColor="@color/gray"
-                android:shadowRadius="1"
                 android:shadowDx="2"
-                android:shadowDy="2"  />
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                android:textColor="@color/white_color"
+                android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/white_color"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/server_layout"
@@ -72,7 +72,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
 
@@ -106,7 +106,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/rating_number"
@@ -132,91 +132,84 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:stretchColumns="*" >
+        android:stretchColumns="*">
 
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/my_identity"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_identity"
-                android:text="@string/my_identity" >
-            </Button>
+                android:text="@string/my_identity"></Button>
 
             <Button
                 android:id="@+id/my_information"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_information"
-                android:text="@string/my_information" >
-            </Button>
+                android:text="@string/my_information"></Button>
 
             <Button
                 android:id="@+id/my_server"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_server"
-                android:text="@string/my_server" >
-            </Button>
+                android:text="@string/my_server"></Button>
         </TableRow>
 
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/my_visitor"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_visitor"
-                android:text="@string/my_visitor" >
-            </Button>
+                android:text="@string/my_visitor"></Button>
 
             <Button
                 android:id="@+id/my_income"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_income"
-                android:text="@string/my_income" >
-            </Button>
+                android:text="@string/my_income"></Button>
 
             <Button
                 android:id="@+id/my_account"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_account"
-                android:text="@string/my_account" >
-            </Button>
+                android:text="@string/my_account"></Button>
         </TableRow>
 
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/my_tuijian"
                 style="@style/table_style"
                 android:layout_width="1dip"
                 android:drawableTop="@mipmap/my_tuijian"
-                android:text="@string/my_tuijian" >
-            </Button>
+                android:text="@string/my_tuijian"></Button>
 
             <Button
+                android:id="@+id/custom_one"
+                style="@style/table_style"
                 android:layout_width="1dip"
-                android:layout_height="match_parent"
-                android:layout_margin="0.8dp"
-                android:background="@color/white_color" >
-            </Button>
+                android:drawableTop="@mipmap/ic_launcher"
+                android:text="默认一"></Button>
 
             <Button
+                android:id="@+id/custom_two"
+                style="@style/table_style"
                 android:layout_width="1dip"
-                android:layout_height="match_parent"
-                android:layout_margin="0.8dp"
-                android:background="@color/white_color" >
-            </Button>
+                android:drawableTop="@mipmap/ic_launcher"
+                android:text="@string/my_tuijian"></Button>
         </TableRow>
     </TableLayout>
 

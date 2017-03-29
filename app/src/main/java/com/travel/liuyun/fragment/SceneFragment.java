@@ -116,14 +116,22 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
         params.put("IMEI", DEVICEID);
         params.put("clientOS", "Android");
         params.put("clientOSVersion", AppInfo.getDeviceVersion());
-        params.put("clientResolution",  AppInfo.getScreenSize());
+        params.put("clientResolution", AppInfo.getScreenSize());
         HashMap a = new HashMap<String, String>();
         a.put("string", generateRandom());
         a.put("token", TOKEN);
         a.put("deviceUUID", DEVICEID);
-        a.put("clientOS", "Android");
-        a.put("clientOSVersion", AppInfo.getDeviceVersion());
-        a.put("clientVersion", AppInfo.getAppVersionName());
+//        a.put("clientOS", "Android");
+//        a.put("clientOSVersion", AppInfo.getDeviceVersion());
+//        a.put("clientVersion", AppInfo.getAppVersionName());
+//        'b':{'userId':'100401201609021237044627442435699555',
+//                'objectNo':'100201201609051722312991751659096335',
+//                'objectType':5,'userType':1},'c':'swtest'}
+        HashMap pri = new HashMap<String, String>();
+        pri.put("userId", "100401201609021237044627442435699555");
+        pri.put("objectNo", "100201201609051722312991751659096335");
+        pri.put("objectType", "5");
+        pri.put("userType", "1");
 
 
 //        TBaseApi.postJsonRequest("createsession/1.0", null, params, a, new TBaseCallback<Student>() {
@@ -134,60 +142,62 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
 //            }
 //        });
 
+
         OkHttpUtils
                 .post()
-                .url("http://115.29.206.244:9080/xwy_traveltools/user/createsession/1.0")
-                .addParams("data",initParam(params,a))
+                .url("http://115.29.206.244:9080/xwy_traveltools/common/bizCreateQRcode/1.0")
+                .addParams("data", initParam(pri, a))
                 .build()
                 .execute(new MyStringCallback());
 
-        Map<String, String> loginParams= new HashMap<String, String>();
-        loginParams.put("platform","android");
-        loginParams.put("version","1.0");
-        loginParams.put("key","123456");
+//        OkHttpUtils
+//                .post()
+//                .url("http://115.29.206.244:9080/xwy_traveltools/user/createsession/1.0")
+//                .addParams("data",initParam(params,a))
+//                .build()
+//                .execute(new MyStringCallback());
+
+        Map<String, String> loginParams = new HashMap<String, String>();
+        loginParams.put("platform", "android");
+        loginParams.put("version", "1.0");
+        loginParams.put("key", "123456");
         loginParams.put("Mobile", "15256298062");//phoneNumber:15256298062
         loginParams.put("PassWord", "123456");//password:123456
 
-        OkHttpUtils
-                .post()
-                .url(Constants.LOGIN_URL).params(loginParams)
-//                .addParams("platform","android")
-//                .addParams("version","1.0")
-//                .addParams("key","123456")
-//                .addParams("Mobile", "15256298062")
-//                .addParams("PassWord", "123456")
-                .build()
-                .execute(new MyStringCallback());
+//        OkHttpUtils
+//                .post()
+//                .url(Constants.LOGIN_URL).params(loginParams)
+////                .addParams("platform","android")
+////                .addParams("version","1.0")
+////                .addParams("key","123456")
+////                .addParams("Mobile", "15256298062")
+////                .addParams("PassWord", "123456")
+//                .build()
+//                .execute(new MyStringCallback());
     }
 
-    public class MyStringCallback extends StringCallback
-    {
+    public class MyStringCallback extends StringCallback {
         @Override
-        public void onBefore(Request request, int id)
-        {
+        public void onBefore(Request request, int id) {
 
         }
 
         @Override
-        public void onAfter(int id)
-        {
+        public void onAfter(int id) {
 
         }
 
         @Override
-        public void onError(Call call, Exception e, int id)
-        {
+        public void onError(Call call, Exception e, int id) {
             e.printStackTrace();
-            Log.e("lgz", "onError："+e.getMessage());
+            Log.e("lgz", "onError：" + e.getMessage());
         }
 
         @Override
-        public void onResponse(String response, int id)
-        {
+        public void onResponse(String response, int id) {
             Log.e("lgz", "onResponse：complete");
 
-            switch (id)
-            {
+            switch (id) {
                 case 100:
                     Toast.makeText(getActivity(), "http", Toast.LENGTH_SHORT).show();
                     break;
@@ -200,14 +210,12 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
 
     private String initParam(Map<String, String> pri_param, Map<String, String> pub_param) {
 
-        Map<String,Object> args = new HashMap<>();
-        Map<String,Object> data = new HashMap<>();
-
-        args.put("a",pub_param);
-        args.put("b",pri_param);
-        args.put("c",new JsonObject());
-       String json = new Gson().toJson(args);
-        return json ;
+        Map<String, Object> args = new HashMap<>();
+        args.put("a", pub_param);
+        args.put("b", pri_param);
+        args.put("c", new JsonObject());
+        String json = new Gson().toJson(args);
+        return json;
     }
 
     @Override

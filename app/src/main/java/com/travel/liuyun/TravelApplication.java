@@ -41,13 +41,8 @@ public class TravelApplication extends Application {
         applicationContext = this;
         instance = this;
         setupDatabase();
-//        OkHttpClient client = new OkHttpClient.Builder()
-//                .connectTimeout(10*1000L, TimeUnit.MILLISECONDS)
-//                .readTimeout(10*1000L, TimeUnit.MILLISECONDS)
-//                .build();
-//        TOkHttpUtils.initClient(client) ;
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new LoggerInterceptor("liiuguizhou",true))
+                .addInterceptor(new LoggerInterceptor("liuguizhou",true))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                 .readTimeout(10000L, TimeUnit.MILLISECONDS)
                 //其他配置

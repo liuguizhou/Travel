@@ -1,4 +1,4 @@
-package com.travel.liuyun.activity;
+package com.travel.liuyun.activity.home;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.travel.liuyun.R;
+import com.travel.liuyun.activity.BaseActivity;
 import com.travel.liuyun.adapter.SlideAdapter;
 import com.travel.liuyun.bean.ItemBean;
 import com.travel.liuyun.loading.EndlessRecyclerOnScrollListener;
