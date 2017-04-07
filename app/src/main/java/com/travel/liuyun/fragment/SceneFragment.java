@@ -31,7 +31,6 @@ import com.travel.liuyun.okhttp.OkHttpManager;
 import com.travel.liuyun.okhttp.download.DownloadUtil;
 import com.travel.liuyun.okhttp.download.OnDownloadListener;
 import com.travel.liuyun.utils.AppInfo;
-import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
@@ -142,13 +141,13 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
 //            }
 //        });
 
-
-        OkHttpUtils
-                .post()
-                .url("http://115.29.206.244:9080/xwy_traveltools/common/bizCreateQRcode/1.0")
-                .addParams("data", initParam(pri, a))
-                .build()
-                .execute(new MyStringCallback());
+//
+//        OkHttpUtils
+//                .post()
+//                .url("http://115.29.206.244:9080/xwy_traveltools/common/bizCreateQRcode/1.0")
+//                .addParams("data", initParam(pri, a))
+//                .build()
+//                .execute(new MyStringCallback());
 
 //        OkHttpUtils
 //                .post()
@@ -175,6 +174,8 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
 //                .build()
 //                .execute(new MyStringCallback());
     }
+
+
 
     public class MyStringCallback extends StringCallback {
         @Override

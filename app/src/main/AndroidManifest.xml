@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,14 +35,16 @@
         <activity android:name=".activity.home.ToLiveActivity"></activity>
         <activity
             android:name=".activity.DialogActivity"
-            android:theme="@style/activity_dialog"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/activity_dialog"></activity>
+        <activity android:name=".activity.MainActivity"></activity>
         <activity android:name=".activity.home.ToPlayActivity"></activity>
         <activity android:name=".activity.home.ImpressionActivity"></activity>
         <activity android:name=".activity.home.TripNewsActivity"></activity>
         <activity android:name=".activity.home.ToEntertainActivity"></activity>
         <activity android:name=".activity.GreenDaoActivity"></activity>
         <activity android:name=".activity.person.CustomViewActivity"></activity>
+
         <meta-data
             android:name="PGYER_APPID"
             android:value="fd545555ea90f3ffd62d1d64978b5f47"></meta-data><!-- ATTENTION: This was auto-generated to add Google Play services to your project for

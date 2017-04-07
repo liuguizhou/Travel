@@ -1,6 +1,7 @@
 package com.travel.liuyun.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity {
     protected void initData(Bundle savedInstanceState) {
 
     }
+
     private void requestPhoneStatePermission() {
 //        //权限判断
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
@@ -111,6 +113,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
