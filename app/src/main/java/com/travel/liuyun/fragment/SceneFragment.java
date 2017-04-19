@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.travel.liuyun.Constants;
 import com.travel.liuyun.R;
 import com.travel.liuyun.activity.GreenDaoActivity;
+import com.travel.liuyun.activity.scene.ImageActivity;
 import com.travel.liuyun.callback.OnItemClickListener;
 import com.travel.liuyun.okhttp.LoadCallBack;
 import com.travel.liuyun.okhttp.OkHttpManager;
@@ -62,6 +63,8 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
     Button commit;
     @BindView(R.id.downloadfile)
     Button download;
+    @BindView(R.id.meizi)
+    Button meizi;
     public static SceneFragment sceneFragment;
 
     // 外存sdcard存放路径
@@ -109,6 +112,7 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
         commit.setOnClickListener(this);
         dialog.setOnClickListener(this);
         greendao.setOnClickListener(this);
+        meizi.setOnClickListener(this);
 
         HashMap params = new HashMap<String, String>();
         params.put("deviceUUID", DEVICEID);
@@ -174,7 +178,6 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
 //                .build()
 //                .execute(new MyStringCallback());
     }
-
 
 
     public class MyStringCallback extends StringCallback {
@@ -315,6 +318,9 @@ public class SceneFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.greendao:
                 startActivity(new Intent(getActivity(), GreenDaoActivity.class));
+                break;
+            case R.id.meizi:
+                startActivity(new Intent(getActivity(), ImageActivity.class));
                 break;
             default:
                 break;
